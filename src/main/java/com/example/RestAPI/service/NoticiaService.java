@@ -18,20 +18,18 @@ public class NoticiaService {
         String apiUrl = "https://servicodados.ibge.gov.br/api/v3/noticias";
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(apiUrl, String.class);
-
+        NoticiaEntity ne = new NoticiaEntity();
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             resultadoNoticia = responseEntity.getBody();
         } else {
             resultadoNoticia = "Falha ao obter dados Da noticia. Código de status: " + responseEntity.getStatusCode();
-        }if(resultadoNoticia != null)
-        {
-            NoticiaEntity ne = new NoticiaEntity();
+        }
+
             ne.setTexto(resultadoNoticia);
             ne.setId(resultadoNoticia);
             noticiaRepository.save(ne);
-        }
 
-        return resultadoNoticia;
+        return ne.getTexto();
     }
     public String noticias() {
         String resultadoNoticia = "";
@@ -44,14 +42,12 @@ public class NoticiaService {
         } else {
             resultadoNoticia = "Falha ao obter dados Da noticia. Código de status: " + responseEntity.getStatusCode();
         }
-        if(resultadoNoticia != null)
-        {
+
             NoticiaEntity ne = new NoticiaEntity();
             ne.setId(resultadoNoticia);
             ne.setTexto(resultadoNoticia);
             noticiaRepository.save(ne);
 
-        }
         return resultadoNoticia;
     }
     public String releases() {
@@ -65,13 +61,11 @@ public class NoticiaService {
         } else {
             resultadoNoticia = "Falha ao obter dados Da noticia. Código de status: " + responseEntity.getStatusCode();
         }
-        if(resultadoNoticia != null)
-        {
-            NoticiaEntity ne = new NoticiaEntity();
+
+            NoticiaEntity ne = new NoticiaEntity(resultadoNoticia, resultadoNoticia);
             ne.setId(resultadoNoticia);
             ne.setTexto(resultadoNoticia);
             noticiaRepository.save(ne);
-        }
         return resultadoNoticia;
     }
 
